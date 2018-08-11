@@ -1,5 +1,6 @@
 package CircledLinkedList;
 
+
 import java.util.Hashtable;
 
 /**
@@ -10,10 +11,10 @@ public class CircledLinkedList {
     private Node last;
 
     /**
-     * Смыкает список в кольцо
+     * Смыкает весь список в кольцо
      * @return
      */
-    public boolean makeCircle() {
+    public boolean makeWholeCircle() {
 
         if (last != null && top != null) {
             last.setNext(top);
@@ -21,6 +22,39 @@ public class CircledLinkedList {
         }
 
         return false;
+    }
+
+    /**
+     * Смыкает часть списка в кольцо на nodeNum узле
+     * @param nodeNum
+     * @return
+     */
+    public boolean makePartCircle(int nodeNum) {
+
+        // ограничение для списков, состоящих меньше чем из 2-х узлов
+        if (nodeNum < 3) {
+            return false;
+        }
+
+        Node current = top;
+
+        while (nodeNum != 1) {
+
+            if (current == null) {
+                return false;
+            }
+
+            current = current.getNext();
+            nodeNum--;
+        }
+
+        // проверка, чтобы элемент не замкнулся сам на себя
+        if (last != null && last != current) {
+            last.setNext(current);
+        }
+
+        return false;
+
     }
 
     /**
@@ -83,24 +117,105 @@ public class CircledLinkedList {
 
     /**
      * Возвращает true - если список замкнут или имеет кольцо
-     * Метод для каждого элемента проходит с начала списка до этого элемента
-     * и проверят встречался уже этот элемент или нет.
+     * Существует 2 случая циклов:
+     * 1) Цикл состоит из всех элементов списка (полный цикл)
+     *  В этом случае для каждого узла, кроме первого проходим с начала списка до текущего узла
+     *  и проверяем, содержат ли два разных узла ссылки на одинаковый следующий элемент
+     *  (такая ситуация возможна для последнего узла цикла списка и элемента перед которым начинается неполный цикл)
+     * 2) Все элементы списка образуют цикл
+     *  Т.к. мы всегда начинаем алгоритм со второго элемента,
+     *  если мы попали в первый элемент, то цикл замкнут.
+     * -----------------
      * Сложность - O(N2)
      */
     public boolean isCircledRetracing() {
-        Node current = top;
+        Node current = top.getNext();
 
-        while(current != null) {
-            current = current.getNext();
+        while(current.getNext() != null) {
 
-            Node trace = top;
-
-            while(trace != current) {
-                if (trace)
+            // проверка для цикла из всех элементов цикла
+            if (current == top) {
+                return true;
             }
+
+            Node tracer = top;
+
+            while(tracer != current) {
+
+                // проверка для цикла из части списка
+                if (current.getNext() == tracer.getNext()) {
+                    return true;
+                }
+
+                tracer = tracer.getNext();
+
+
+            }
+
+            current = current.getNext();
         }
 
         return false;
+    }
+
+
+    /**
+     * алгоритм реверсирует (меняет направление связей в списке)
+     * используется для определеням циклов с помощью риверсии.
+     * Возвращает ссылку на последний реверсированный элемент.
+     * -------------------
+     * Сложность - O(N)
+     * @param start
+     * @return
+     */
+    private Node reverseList(Node start) {
+
+        Node prev = null;
+        Node current = start;
+
+        // проходим по списку и меняем связи.
+        // while не зациклится,
+        // 1) в случае частичного цикла в списке,
+        //    т.к. из-за смены связей алгоритм вернется в начало.
+        // 2) при полном цикле, проверяем что, если второй пришли в начало, значит цикл
+        //    (это условие также актуальнои для первого случая)
+        while (current != null) {
+
+            // меняем ссылку
+            Node next = current.getNext();
+            current.setNext(prev);
+
+            System.out.println(current.getValue());
+
+            if (current == start && prev != null) {
+                // т.к. мы не перешли к сл. элементу.
+                return current;
+            }
+
+            // переходим к следующему элементу
+            prev = current;
+            current = next;
+        }
+
+        // prev, т.к. current = null
+        return prev;
+    }
+
+    /**
+     * Проеряет содержит ли список цикл.
+     * Суть - 2 раза реверсируем цикл
+     * и если оба раза последний реверсируемый элемент одинаковый,
+     * значит цикл замкнутый.
+     * Пр. во всех случаях повторное реверсирование восстанавливает исходный ссылки.
+     * ----------------------
+     * Сложность O(N).
+     * @return
+     */
+    public boolean isCyrcledReversing() {
+        Node first = this.reverseList(top);
+        System.out.println("--------------------");
+        Node second = this.reverseList(first);
+        return first == second;
     }
 
     /**
@@ -226,6 +341,16 @@ public class CircledLinkedList {
 
             current = current.getNext();
         }
+    }
+
+    /**
+     * ТОЛЬКО ДЛЯ ПРОВЕРКИ РЕВЕРСИРОВАНИЯ СПИСКА!
+     */
+    public void reverseTest() {
+        Node top = this.top;
+        Node last = this.last;
+
+        Node point = this.reverseList(top);
     }
 
 }
