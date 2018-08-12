@@ -14,12 +14,12 @@ public class Main {
         list.addToTheEnd(323);
         list.addToTheEnd(37);
 
-        //list.makePartCircle(4);
-        list.makeWholeCircle();
+        list.makePartCircle(2);
+        //list.makeWholeCircle();
         //list.addToTheEnd(3123);
         System.out.println("Is list circled: " + list.isCyrcledReversing());
         list.display();
-        list.breakCircle();
+        list.breakCircleFloydMethod();
 
         System.out.println("--------------------------");
         System.out.println("Is list circled: " + list.isCyrcledReversing());
