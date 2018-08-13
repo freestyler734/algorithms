@@ -1,9 +1,11 @@
+import stacks.ArrayStack.ArrayStack;
 import stacks.LinkedListStack.LinkedListStack;
+import stacks.StackAlgorithms.StackAlgorithms;
 
 public class Main {
 
     public static void main(String[] args) {
-        LinkedListStack stack = new LinkedListStack();
+        ArrayStack stack = new ArrayStack(12);
 
         stack.push(21);
         stack.push(21231);
@@ -12,28 +14,20 @@ public class Main {
         stack.push(261);
         stack.push(231);
         stack.push(221);
+        stack.pop();
+        stack.pop();
+        stack.pop();
         stack.push(2551);
         stack.push(8);
         stack.push(1);
+        stack.pop();
         stack.push(351);
         stack.push(26);
 
         stack.display();
 
         System.out.println("--------------------------");
-        stack.pop();
-        stack.pop();
-        stack.pop();
-        stack.pop();
-        stack.pop();
-        stack.pop();
-        stack.pop();
-        stack.pop();
-        stack.pop();
-        stack.pop();
-        stack.pop();
 
-
-        stack.display();
+        StackAlgorithms.insertionSort(stack, 7).display();
     }
 }
