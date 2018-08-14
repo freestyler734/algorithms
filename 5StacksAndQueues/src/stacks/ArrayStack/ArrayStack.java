@@ -40,7 +40,10 @@ public class ArrayStack {
             throw new IndexOutOfBoundsException();
         }
 
-        return baseStructure[cursor--];
+        double poped =  baseStructure[cursor];
+        baseStructure[cursor] = 0;
+        cursor--;
+        return poped;
     }
 
     /**
@@ -52,8 +55,16 @@ public class ArrayStack {
         return cursor >= 0;
     }
 
+    /**
+     * Возвращает кол-во элементов в стеке.
+     * @return
+     */
+    public int getLength(){
+        return cursor + 1;
+    }
+
     public void display() {
-        for (int i = 0; i <= cursor; i ++) {
+        for (int i = cursor; i >= 0; i ++) {
             System.out.println(baseStructure[i]);
         }
     }

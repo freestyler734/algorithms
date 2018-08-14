@@ -1,3 +1,4 @@
+import queues.LinkedListQueue.LinkedListQueue;
 import stacks.ArrayStack.ArrayStack;
 import stacks.LinkedListStack.LinkedListStack;
 import stacks.StackAlgorithms.StackAlgorithms;
@@ -5,29 +6,30 @@ import stacks.StackAlgorithms.StackAlgorithms;
 public class Main {
 
     public static void main(String[] args) {
-        ArrayStack stack = new ArrayStack(12);
+        LinkedListQueue queue = new LinkedListQueue();
 
-        stack.push(21);
-        stack.push(21231);
-        stack.push(421);
-        stack.push(134);
-        stack.push(261);
-        stack.push(231);
-        stack.push(221);
-        stack.pop();
-        stack.pop();
-        stack.pop();
-        stack.push(2551);
-        stack.push(8);
-        stack.push(1);
-        stack.pop();
-        stack.push(351);
-        stack.push(26);
+        queue.push(21);
+        queue.push(21231);
+        queue.push(421);
+        queue.push(134);
+        queue.push(261);
+        queue.push(231);
+        queue.push(221);
 
-        stack.display();
+        queue.push(2551);
+        queue.push(8);
+        queue.push(1);
 
-        System.out.println("--------------------------");
+        queue.push(351);
+        queue.push(26);
 
-        StackAlgorithms.insertionSort(stack, 7).display();
+        queue.pop();
+        queue.pop();
+        queue.pop();
+        queue.pop();
+
+        queue.display();
+
+
     }
 }
