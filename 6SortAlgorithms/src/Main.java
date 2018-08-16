@@ -1,17 +1,20 @@
+import ArrayTrees.ArrayBinaryTree;
 import arraySort.ArraySort;
 
 public class Main {
 
     public static void main(String[] args) {
 
-        double[] array = {10,9,-8,72,16,-5,4,3,12,0};
-        display(array);
+        ArrayBinaryTree tree = new ArrayBinaryTree(7);
+        tree.add(7);
+        tree.add(1);
+        tree.add(10);
+        tree.add(4);
+        tree.add(6);
+        tree.add(9);
+        tree.add(2);
 
-        ArraySort.bubbleSort(array);
-
-        System.out.println("---------------------------");
-
-        display(array);
+        tree.display();
     }
 
     public static void display(double[] array) {
