@@ -163,21 +163,20 @@ public class ArrayBinaryTree {
     /**
      * Выводит дерево в консоль.
      */
-    public void display() {
+    public void display(int elementSize) {
         int emptyElementCountOnLevel = (size - 1) / 2; // радиус дерева (кол-во мест для элементов слева до корня)
-        int spaceForElament = 7;
 
         // вывод корневого элемента
-        printSpaces(spaceForElament * emptyElementCountOnLevel);
+        printSpaces(elementSize * emptyElementCountOnLevel);
         emptyElementCountOnLevel /= 2;
-        System.out.print(formatValueDisplayed(String.valueOf(baseStructure[0]), spaceForElament));
+        System.out.print(formatValueDisplayed(String.valueOf(baseStructure[0]), elementSize));
         System.out.println();
 
         // выводим оставшиеся узлы
         // цикл начинается с левого потомка корня(второго по счету узла)
         // и проходит по уровням дерева (или всем крайним левым элементам).
         for (int i = 1; i < size; i = 2 * i + 1) {
-            printSpaces(spaceForElament * emptyElementCountOnLevel); // печатаем в консоль пробелы  упорядочевания дерева в консоли.
+            printSpaces(elementSize * emptyElementCountOnLevel); // печатаем в консоль пробелы  упорядочевания дерева в консоли.
 
             // начиная с текущего узла,
             // печатаем все элементы уровня в дереве,
@@ -185,8 +184,8 @@ public class ArrayBinaryTree {
             int j = i;
             while (j < 2 * i + 1) {
                 String element = String.valueOf(baseStructure[j]);
-                System.out.print(formatValueDisplayed(element, spaceForElament));
-                printSpaces(2 * spaceForElament * emptyElementCountOnLevel + spaceForElament);
+                System.out.print(formatValueDisplayed(element, elementSize));
+                printSpaces(2 * elementSize * emptyElementCountOnLevel + elementSize);
                 j++;
             }
 

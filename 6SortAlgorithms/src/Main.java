@@ -14,7 +14,7 @@ public class Main {
         tree.add(2);
 
 
-        tree.display();
+        tree.display(7);
     }
 
     public static void display(double[] array) {
