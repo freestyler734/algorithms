@@ -1,16 +1,15 @@
 package ArrayTrees;
 
 /**
- * Реализация бинарного дерева на базе массива.
+ * Реализация бинарного дерева(дерево с неболее, чем двумя потомками) на базе массива.
  */
 public class ArrayBinaryTree {
 
-    private int size;
+    private int size = 1;
     private double[] baseStructure;
     private int lastInserted = -1;
 
-    public ArrayBinaryTree(int size) {
-        this.size = size;
+    public ArrayBinaryTree() {
         baseStructure = new double[size];
     }
 
@@ -27,11 +26,26 @@ public class ArrayBinaryTree {
      * @param element
      */
     public void add(double element) {
-        if (++lastInserted > size) {
-           // System.out.println("Дерево содержит максимальное количество элементов.");
-            throw new IndexOutOfBoundsException();
+        // если индекс последнего свободного элемента
+        // больше размера массива - 1, то расширяем массив еще для одного уровня.
+        if (++lastInserted > size - 1) {
+            this.expandArray();
         }
         baseStructure[lastInserted] = element;
+    }
+
+    /**
+     * Создает больший массив (на уровень дерева)
+     * и переносит имеющиеся элементы.
+     */
+    private void expandArray() {
+        double[] temp = baseStructure;
+        size = 2 * size + 1;
+        baseStructure = new double[size];
+
+        for (int i = 0; i < temp.length; i++) {
+            baseStructure[i] = temp[i];
+        }
     }
 
     /**
@@ -150,33 +164,49 @@ public class ArrayBinaryTree {
      * Выводит дерево в консоль.
      */
     public void display() {
-        int spaceElements = (size - 1) / 2; // радиус дерева (кол-во мест для элементов слева до корня)
-        int space = 5;
+        int emptyElementCountOnLevel = (size - 1) / 2; // радиус дерева (кол-во мест для элементов слева до корня)
+        int spaceForElament = 7;
 
-        printSpaces(space * spaceElements);
-        spaceElements /= 2;
-
-        System.out.print(baseStructure[0]);
+        // вывод корневого элемента
+        printSpaces(spaceForElament * emptyElementCountOnLevel);
+        emptyElementCountOnLevel /= 2;
+        System.out.print(formatValueDisplayed(String.valueOf(baseStructure[0]), spaceForElament));
         System.out.println();
 
-        for (int i = 1; i < size; i = 2 * i) {
-            printSpaces(space * spaceElements);
+        // выводим оставшиеся узлы
+        // цикл начинается с левого потомка корня(второго по счету узла)
+        // и проходит по уровням дерева (или всем крайним левым элементам).
+        for (int i = 1; i < size; i = 2 * i + 1) {
+            printSpaces(spaceForElament * emptyElementCountOnLevel); // печатаем в консоль пробелы  упорядочевания дерева в консоли.
 
+            // начиная с текущего узла,
+            // печатаем все элементы уровня в дереве,
+            // добавляя пробелы.
             int j = i;
-            while (j <= 2 * i) {
-                int index = 2 * i;
-                if (index < size) {
-                    System.out.print(baseStructure[(index + (j - i) - 1)]);
-                    printSpaces(2 * space * spaceElements + space);
-                    j++;
-                }
+            while (j < 2 * i + 1) {
+                String element = String.valueOf(baseStructure[j]);
+                System.out.print(formatValueDisplayed(element, spaceForElament));
+                printSpaces(2 * spaceForElament * emptyElementCountOnLevel + spaceForElament);
+                j++;
             }
 
             System.out.println();
-            spaceElements /= 2;
+            emptyElementCountOnLevel /= 2; // на каждом уровне кол-во пустых мест для элементов уменьшается вдвое.
+        }
+    }
 
+    private String formatValueDisplayed(String value, int spaceForElament) {
+
+        StringBuilder builder = new StringBuilder(value);
+
+        while (builder.length() < spaceForElament) {
+            builder.append(" ");
+
+            if (builder.length() < spaceForElament) {
+                builder.insert(0, " ");
+            }
         }
 
-
+        return builder.toString();
     }
 }
