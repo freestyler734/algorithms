@@ -154,12 +154,6 @@ public class ArrayBinaryTree {
         return depth;
     }
 
-    private void printSpaces(int count) {
-        while (count-- != 0) {
-            System.out.print(" ");
-        }
-    }
-
     /**
      * Выводит дерево в консоль.
      */
@@ -207,5 +201,15 @@ public class ArrayBinaryTree {
         }
 
         return builder.toString();
+    }
+
+    /**
+     * Вывод заданное кол-во пробелов в консоль
+     * @param count
+     */
+    private void printSpaces(int count) {
+        while (count-- != 0) {
+            System.out.print(" ");
+        }
     }
 }
