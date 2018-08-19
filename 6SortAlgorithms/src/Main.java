@@ -6,14 +6,16 @@ public class Main {
 
     public static void main(String[] args) {
 
-        double[] array = {1,5,2,3,5,2,12,57,32,9};
-        ArraySort.heapSort(array);
+        int[] array = {80, 45, 87, 98, 12, 54, 83, 96, 45, 26, 28, 6, 31, 7, 83, 43, 8, 50, 83, 80};
+
+
+        ArraySort.countSort(array, 98);
 
         display(array);
 
         }
 
-    public static void display(double[] array) {
+    public static void display(int[] array) {
         for (int i = 0; i < array.length; i++) {
             System.out.println(array[i]);
         }

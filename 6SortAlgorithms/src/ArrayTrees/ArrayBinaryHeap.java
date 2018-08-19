@@ -84,9 +84,8 @@ public class ArrayBinaryHeap {
             int currentRightChild = 2 * currentIndex + 2;
 
             // вышли за пределы массива
-            if (currentLeftChild > size || currentRightChild > size) {
-                break;
-            }
+            if (currentLeftChild > size - 1) currentLeftChild = currentIndex;
+            if (currentRightChild > size - 1) currentRightChild = currentIndex;
 
             // потомки меньше родитея (куча удовлетворяет условию)=> выходим из цикла
             if (baseStructure[currentIndex] >= baseStructure[currentLeftChild]
