@@ -108,7 +108,7 @@ public class LinearProbingHashTable {
 
         // проходим пробную последовательность, пока она не закончится,
         // или не сделаем полный круг
-        int probingIndex = tableIndex + probingConst;
+        int probingIndex = (tableIndex + probingConst) % tableSize;
         while (hashTable[probingIndex] != null &&
                 hashTable[probingIndex] != hashTable[tableIndex]) {
             if (hashTable[probingIndex].getKey() == key) { // нашли элемент, возвращаем рузультат
@@ -135,7 +135,7 @@ public class LinearProbingHashTable {
             hashTable[tableIndex] = null;
             return true;
         } else { // проходим по пробной последовательности в поисках элемента
-            int probingIndex = tableIndex + probingConst;
+            int probingIndex = (tableIndex + probingConst) % tableSize;
             // проходим пробную последовательность, пока она не закончится,
             // или не сделаем полный круг
             while (hashTable[probingIndex] != null &&
