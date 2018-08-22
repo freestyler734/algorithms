@@ -8,18 +8,19 @@ package OpenAdressingHashTable;
  * Пробная последовательность - последовательность, в которой просматриваются ячейки хеш-таблицы для вставки и поиска элемента.
  * Проще говоря, это последовательность элементов, которую необходимо пройти чтобы выполнить одно действие(пр. вставка, поиск).
  * Размер пробной последовательности говорит об общей плотности таблице(чем больше плотность, тем больше вероятность коллизии).
- * Для решения проблем коллизий используется метод линейного пробирования -
+ * Для решения проблем коллизий используется метод квадратичного пробирования -
  * метод при котором в случае коллизий к текущему индексу в хеш-таблице прибавляем небольшое фиксированное число
- * (чаще всего 1, потому что при большом или четном значениии и числа и размера массива, существует вероятность постоянного проскакивания пустых ячеек).
- * Проблема данного метода заключается в том, что c ростом элементов образуются большие блоки смежных записей, следовательно
- * увеличивается пробная последовательность и скорость работы с хеш-таблицей уменьшается.
+ * возведенное в квадрат. Число увеличивается на каждом шаге - K, K + const^2, K + (const + 1)^2, и т.д.
+ * Данный метод прибирования решает проблему первичной кластеризации (при которой пробная последовательность увеличивается и блоки записей сливаются).
+ * Но не способна решить вторичную(элементы с одинаковм начальным индексам получают одну и ту же пробную последовательнось, иногда очень длинную).
+ * Также из-за больших прибаляемых значений, алгоритм иногда постоянно перепрыгивает пустые ячейки.
  */
-public class LinearProbingHashTable {
+public class SquareProbingHashTable {
     private int tableSize = 10;
     private int probingConst = 1;
     private Entry[] hashTable;
 
-    public LinearProbingHashTable() {
+    public SquareProbingHashTable() {
         hashTable = new Entry[tableSize];
     }
 
@@ -36,20 +37,22 @@ public class LinearProbingHashTable {
     /**
      * Добавляет запись ключ-значение в таблицу
      * ---------------------------
-     * Сложность - O(1), при пробной последовательности 1-2,
-     * O(N) - наихудший вариант, одно свободное мечто.
+     * Сложность - O(1), но увеличивается при увеличении плотности таблицы
      * @param entry
      * @return
      */
     private boolean putInternal(Entry entry) {
         int tableIndex = hashFunction(entry.getKey());
 
+
         if (hashTable[tableIndex] == null) { // если коллизии нет, то вставляем элемент
             hashTable[tableIndex] = entry;
             return true;
         } else if (hashTable[tableIndex].getKey() != entry.getKey()) { // коллизия и заявленный ключ не дублируется
-            int probingIndex = (tableIndex + probingConst) % tableSize;
-            // проходим пробную последовательность, пока не сделаем круг(свободных мест нет)
+            int currentProbingConst = probingConst;
+            int probingIndex = (int) ((tableIndex + Math.pow(currentProbingConst , 2)) % tableSize);
+            // проходим пробную последовательность, пока не сделаем круг
+            // (не вернемся к начальному значению - последовательность повторяется)
             while (hashTable[tableIndex] != hashTable[probingIndex]) {
                 if (hashTable[probingIndex] == null) { // нашли пустое место для вставки
                     hashTable[probingIndex] = entry;
@@ -58,7 +61,7 @@ public class LinearProbingHashTable {
                     return false;
                 }
 
-                probingIndex = (probingIndex + probingConst) % tableSize;
+                probingIndex = (int) ((probingIndex + Math.pow(++currentProbingConst , 2)) % tableSize);
             }
 
             // не нашли место для вставки, тогда расширяем массив,
@@ -101,6 +104,7 @@ public class LinearProbingHashTable {
     public double get(int key) {
         int tableIndex = hashFunction(key);
 
+
         // нашли элемент, возвращаем рузультат
         if (hashTable[tableIndex].getKey() == key) {
             return hashTable[tableIndex].getValue();
@@ -108,14 +112,15 @@ public class LinearProbingHashTable {
 
         // проходим пробную последовательность, пока она не закончится,
         // или не сделаем полный круг
-        int probingIndex = (tableIndex + probingConst) % tableSize;
+        int currentProbingConst = probingConst;
+        int probingIndex = (int) (tableIndex + Math.pow(currentProbingConst , 2) % tableSize);
         while (hashTable[probingIndex] != null &&
                 hashTable[probingIndex] != hashTable[tableIndex]) {
             if (hashTable[probingIndex].getKey() == key) { // нашли элемент, возвращаем рузультат
                 return hashTable[probingIndex].getValue();
             }
 
-            probingIndex = (probingIndex + probingConst) % tableSize;
+            probingIndex = (int) ((probingIndex + Math.pow(++currentProbingConst , 2)) % tableSize);
         }
 
         throw new NullPointerException();
@@ -135,7 +140,8 @@ public class LinearProbingHashTable {
             hashTable[tableIndex] = null;
             return true;
         } else { // проходим по пробной последовательности в поисках элемента
-            int probingIndex = (tableIndex + probingConst) % tableSize;
+            int currentProbingConst = probingConst;
+            int probingIndex = (int) (tableIndex + Math.pow(currentProbingConst, 2)) % tableSize;
             // проходим пробную последовательность, пока она не закончится,
             // или не сделаем полный круг
             while (hashTable[probingIndex] != null &&
@@ -145,7 +151,7 @@ public class LinearProbingHashTable {
                     return true;
                 }
 
-                probingIndex = (probingIndex + probingConst) % tableSize;
+                probingIndex = (int) (tableIndex + Math.pow(++currentProbingConst, 2)) % tableSize;
             }
         }
 
@@ -162,4 +168,5 @@ public class LinearProbingHashTable {
             if ((i + 1) % 11 == 0) System.out.println();
         }
     }
+
 }
