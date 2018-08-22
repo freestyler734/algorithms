@@ -1,6 +1,4 @@
-import ArrayTrees.ArrayBinaryHeap;
-import ArrayTrees.ArrayBinaryTree;
-import arraySort.ArraySort;
+import arraySort.*;
 
 public class Main {
 
