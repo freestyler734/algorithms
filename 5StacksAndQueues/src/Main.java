@@ -1,8 +1,4 @@
-import queues.ArrayQueue.ArrayQueue;
-import queues.LinkedListQueue.LinkedListQueue;
-import stacks.ArrayStack.ArrayStack;
-import stacks.LinkedListStack.LinkedListStack;
-import stacks.StackAlgorithms.StackAlgorithms;
+import queues.ArrayQueue.*;
 
 public class Main {
 
