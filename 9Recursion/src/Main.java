@@ -1,9 +1,22 @@
-import baseAlrorithms.BaseAlgorithms;
+import returningAlgorithms.EightQueenProblem;
 
 public class Main {
 
     public static void main(String[] args) {
 
-        System.out.println(BaseAlgorithms.getFibonacci(5));
+        int[][] indexes = {{-1,-1},
+                            {-1,-1},
+                            {-1,-1},
+                            {-1,-1},
+                            {-1,-1},
+                            {-1,-1},
+                            {-1,-1},
+                            {-1,-1}};
+
+       System.out.println(EightQueenProblem.eightQueenProblem(indexes, 0));
+
+       EightQueenProblem.printQueens(indexes);
     }
+
+
 }
