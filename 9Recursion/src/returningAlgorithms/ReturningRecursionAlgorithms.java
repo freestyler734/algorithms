@@ -29,12 +29,13 @@ public class ReturningRecursionAlgorithms {
      */
     private static boolean isLegal(boolean[][] field) {
 
-        int trueCount = field[0][0] ? 1 : 0;
+
 
         for (int diagonalIndex = 0; diagonalIndex < field.length; diagonalIndex++) {
             int index = diagonalIndex;
 
             while (index < field.length) {
+
                 index++;
             }
         }
