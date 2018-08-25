@@ -1,9 +1,10 @@
-import baseAlrorithms.BaseAlgorithms;
+import returningAlgorithms.EightQueenProblem;
 
 public class Main {
 
     public static void main(String[] args) {
 
+<<<<<<< HEAD
         int[][] array = {{0,1,0,0,0},
                          {0,0,0,0,0},
                          {0,0,0,1,0},
@@ -19,5 +20,21 @@ public class Main {
             }
             System.out.println();
         }
+=======
+        int[][] indexes = {{-1,-1},
+                            {-1,-1},
+                            {-1,-1},
+                            {-1,-1},
+                            {-1,-1},
+                            {-1,-1},
+                            {-1,-1},
+                            {-1,-1}};
+
+       System.out.println(EightQueenProblem.eightQueenProblem(indexes, 0));
+
+       EightQueenProblem.printQueens(indexes);
+>>>>>>> b230da160d09b7e7217897c20005c23d596e1c64
     }
+
+
 }
