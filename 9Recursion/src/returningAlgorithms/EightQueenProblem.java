@@ -11,6 +11,10 @@ import java.util.ArrayList;
  */
 public class EightQueenProblem {
 
+    public static int stepCount = 0;
+
+
+
     static int[][] empty = {{-1,-1},
                             {-1,-1},
                             {-1,-1},
@@ -28,17 +32,19 @@ public class EightQueenProblem {
      */
     public static boolean eightQueenProblem(int[][] indexes, int positionedQueenCount) {
 
-        if (!isLegal(indexes)) return false;
+        //if (!isLegal(indexes)) return false;
 
         if (positionedQueenCount == 8){
              return true; // одно решение
         }
 
-        for (int row = 0; row < 8; row++) {
+        for (int row = positionedQueenCount; row < 8; row++) {
             for (int col = 0; col < 8; col++) {
                 int[] currentIndex = {row, col};
-                if (!isTaken(indexes, currentIndex)) {
+                if (!isTaken(indexes, currentIndex) && checkPosition(indexes, currentIndex)) {
+
                     indexes[positionedQueenCount] = currentIndex;
+                    stepCount++;
 
                     if (eightQueenProblem(indexes, positionedQueenCount + 1)) {
                         return true;
@@ -71,7 +77,7 @@ public class EightQueenProblem {
 
                if (queenIndex1[0] == queenIndex2[0] ||
                    queenIndex1[1] == queenIndex2[1] ||
-                   (queenIndex1[0] - queenIndex2[0] == queenIndex1[1] - queenIndex2[1])) {
+                   (Math.abs(queenIndex1[0] - queenIndex2[0]) == Math.abs(queenIndex1[1] - queenIndex2[1]))) {
                    return false;
                }
            }
@@ -92,6 +98,32 @@ public class EightQueenProblem {
         return false;
     }
 
+    private static boolean checkPosition(int[][] indexes, int[] queenIndex1) {
+
+        if (indexes[0][0] == -1) return true;
+
+       // if (queenIndex1[0] == 4 && queenIndex1[1] == 6) {
+     //       System.out.println();
+       // }
+
+        int i = 0;
+        while (i < 8) {
+            int[] queenIndex2 = indexes[i];
+
+            if (queenIndex2[0] == -1) break;
+
+            if (queenIndex1[0] == queenIndex2[0] ||
+                    queenIndex1[1] == queenIndex2[1] ||
+                    (Math.abs(queenIndex1[0] - queenIndex2[0]) == Math.abs(queenIndex1[1] - queenIndex2[1]))) {
+                return false;
+            }
+
+            i++;
+        }
+
+        return true;
+    }
+
     public static void printQueens(int[][] indexes) {
         int index = 0;
         for (int i = 0; i < 8; i++) {
@@ -107,6 +139,8 @@ public class EightQueenProblem {
             System.out.println();
         }
     }
+
+
 
 
 }
