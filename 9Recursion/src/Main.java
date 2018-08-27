@@ -44,7 +44,20 @@ public class Main {
 
         Combinations.displayList(Combinations.combinationsOf(list, 3));*/
 
-        int[][] array = {{8, 0, 5, 1},
+        int[][] array = {{1, 0, 7, 5,},
+                        {3, 4, 1, 3},
+                        {5, 1, 1, 4},
+                        {7, 6, 1, 8},
+                        {5, 7, 4, 4},
+                        {8, 3, 3, 4},
+                        {7, 1, 5, 4},
+                        {4, 1, 1, 0},
+                        {3, 1, 1, 4},
+                        {2, 4, 3, 8},
+                        {5, 1, 1, 7},
+                        {4, 2, 4, 2}};
+
+        /*int[][] array = {{8, 0, 5, 1},
                         {4, 4, 3, 6},
                         {3, 7, 1, 2},
                         {5, 0, 5, 2},
@@ -55,16 +68,27 @@ public class Main {
                         {3, 4, 3, 0},
                         {1, 7, 3, 8},
                         {0, 7, 7, 3},
-                        {3, 2, 0, 4}};
+                        {3, 2, 0, 4}};*/
+        /*int[][] array = {{1, 6, 4, 0},
+                        {6, 1, 3, 5},
+                        {4, 0, 5, 2},
+                        {4, 1, 3, 5},
+                        {5, 1, 4, 2},
+                        {6, 5, 5, 4},
+                        {4, 0, 4, 6},
+                        {5, 2, 1, 4},
+                        {4, 6, 0, 1},
+                        {2, 0, 1, 4},
+                        {3, 0, 4, 5},
+                        {4, 0, 5, 1}};*/
 
         List result = new ArrayList();
 
-        System.out.println(ConeDevTest.test(array, result, 0));
+        ConeDevTest.test(array, result);
 
-        for (int i = 0; i < 12; i++) {
-            int[] block = (int[]) result.get(i);
-            System.out.println(String.format("{%d, %d, %d, %d}", block[0],block[1],block[2],block[3]));
-        }
+        System.out.println(ConeDevTest.steps);
+
+
 
     }
 
