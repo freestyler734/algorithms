@@ -1,7 +1,5 @@
 package binarySearchTree;
 
-import com.sun.org.apache.xalan.internal.xsltc.runtime.Hashtable;
-
 import java.util.LinkedList;
 
 /**
@@ -40,7 +38,7 @@ public class BinarySearchTree {
     }
 
     /**
-     * Пу
+     * Публичный метод для вставки элемента.
      * @param value
      */
     public void add(int value) {
