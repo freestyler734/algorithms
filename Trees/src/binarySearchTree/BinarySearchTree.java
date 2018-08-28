@@ -132,14 +132,15 @@ public class BinarySearchTree {
                 currentRightChild = currentRightChild.getRight();
             }
 
-            // заменяем найденный элемент(крайний правый у левого потомка удаляемого элемента)
-            // левым потомком.
-            prevRightChild.setRight(currentRightChild.getLeft());
-
-            // переносим потомки удаляемого элемента найденному
-            // (крайнему правому у левого потомка удаляемого).
-            //if (currentRightChild != current.getLeft())
-            currentRightChild.setLeft(current.getLeft());
+            if (prevRightChild != current) {
+                // заменяем найденный элемент(крайний правый у левого потомка удаляемого элемента)
+                // левым потомком.
+                prevRightChild.setRight(currentRightChild.getLeft());
+                // переносим потомки удаляемого элемента найденному
+                // (крайнему правому у левого потомка удаляемого).
+                //if (currentRightChild != current.getLeft())
+                currentRightChild.setLeft(current.getLeft());
+            }
             currentRightChild.setRight(current.getRight());
 
 
@@ -165,11 +166,15 @@ public class BinarySearchTree {
                 if (parent.getData() > value) parent.setLeft(current.getLeft());
                 else parent.setRight(current.getLeft());
             } else { //  при удалении корня.
-                root = current.getRight();
+                root = current.getLeft();
             }
         } else  { // у удаляемого элемента нет потомков
-            if (parent.getData() > value) parent.setLeft(null);
-            else parent.setRight(null);
+            if (parent != null) {
+                if (parent.getData() > value) parent.setLeft(null);
+                else parent.setRight(null);
+            } else { //  при удалении корня.
+                root = null;
+            }
         }
 
         return true;
@@ -204,6 +209,9 @@ public class BinarySearchTree {
      * @param node
      */
     private void broadwisePassing(Node node) {
+
+        if (node == null) return;
+
         // т.к. у узлов уровня нет связей, сохраняем эти узлы в очередь.
         LinkedList<Node> queue = new LinkedList<>();
 
