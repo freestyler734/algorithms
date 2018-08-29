@@ -112,7 +112,7 @@ public class BinarySearchTree {
         // ищем родителя удаляемого элемента, если он есть.
         Node parent = findParent(root, value);
         if (parent == null) {
-            // у удаляемого элемента нет родителя
+            // у удаляемого элемента нет родителя - удаляем корень
             if (root.getData() == value) current = root;
             else return false;
         } else {
@@ -125,12 +125,14 @@ public class BinarySearchTree {
         if (current.getRight() != null && current.getLeft()!= null) {
             Node prevRightChild = current;
             Node currentRightChild = current.getLeft(); // стартуем с левого потомка удаляемого элемента.
+            // ищем крайний правый элемент левого потомка удаляемого элемента.
             while (currentRightChild.getRight() != null) {
                 prevRightChild = currentRightChild;
                 currentRightChild = currentRightChild.getRight();
             }
 
-            if (prevRightChild != current) {
+
+            if (prevRightChild != current) {// если у найденного узла есть потомки.
                 // заменяем найденный элемент(крайний правый у левого потомка удаляемого элемента)
                 // левым потомком.
                 prevRightChild.setRight(currentRightChild.getLeft());
@@ -142,7 +144,7 @@ public class BinarySearchTree {
             currentRightChild.setRight(current.getRight());
 
 
-            if (parent != null) {
+            if (parent != null) { // если удаляем не корневой элмент.
                 // заменяем найденный элемент удаляемым.
                 if (parent.getData() > value) parent.setLeft(currentRightChild);
                 else parent.setRight(currentRightChild);
@@ -151,7 +153,7 @@ public class BinarySearchTree {
             }
 
         } else if (current.getRight() != null) { // у удаляемого элемента только правый потомок
-            if (parent != null) {
+            if (parent != null) { // если удаляем не корневой элмент.
                 // незнаем с какой стороны удаляемый элемент
                 if (parent.getData() > value) parent.setLeft(current.getRight());
                 else parent.setRight(current.getRight());
@@ -159,7 +161,7 @@ public class BinarySearchTree {
                 root = current.getRight();
             }
         } else if (current.getLeft() != null) { // у удаляемого элемента только левый потомок
-            if (parent != null) {
+            if (parent != null) { // если удаляем не корневой элмент.
                 // незнаем с какой стороны удаляемый элемент
                 if (parent.getData() > value) parent.setLeft(current.getLeft());
                 else parent.setRight(current.getLeft());
@@ -167,7 +169,7 @@ public class BinarySearchTree {
                 root = current.getLeft();
             }
         } else  { // у удаляемого элемента нет потомков
-            if (parent != null) {
+            if (parent != null) { // если удаляем не корневой элмент.
                 if (parent.getData() > value) parent.setLeft(null);
                 else parent.setRight(null);
             } else { //  при удалении корня.
