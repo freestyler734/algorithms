@@ -19,6 +19,8 @@ public class AVLTree {
             }
             else insert(current.getLeft(), value);
             current.height = current.getLeft().height + 1;
+            balance(current, current.getLeft());
+
         } else {
             if (current.getRight() == null) {
                 current.setRight(new Node(value));
@@ -26,7 +28,9 @@ public class AVLTree {
             }
             else insert(current.getRight(), value);
             current.height = current.getRight().height + 1;
+            balance(current, current.getRight());
         }
+
     }
 
     public void add(int value) {
@@ -90,6 +94,29 @@ public class AVLTree {
     private void complexLeftRotate(Node parent, Node node) {
         smallRightRotate(node, node.getRight());
         smallLeftRotate(parent, node);
+    }
+
+    private void balance(Node parent, Node current) {
+
+        Node left = current.getLeft();
+        Node right = current.getRight();
+        if (left != null && right != null) {
+            int balanceCoeff = current.getLeft().height - current.getRight().height;
+
+            if (balanceCoeff > 1) {
+                if (left.getLeft().height - left.getRight().height > 0) {
+                    smallRightRotate(parent, current);
+                } else if(left.getLeft().height - left.getRight().height > 0) {
+                    complexRightRotate(parent, current);
+                }
+            } else if (balanceCoeff < -1) {
+                if (left.getLeft().height - left.getRight().height > 0) {
+                    smallLeftRotate(parent, current);
+                } else if(left.getLeft().height - left.getRight().height > 0) {
+                    complexLeftRotate(parent, current);
+                }
+            }
+        }
     }
 
 }
